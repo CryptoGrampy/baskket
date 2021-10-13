@@ -1,0 +1,186 @@
+@font-face {
+  font-family: 'open-sans';
+  src: url('/static/open-sans.ttf')
+  format('truetype')
+}
+
+* {
+  scrollbar-width: none;
+}
+
+body {
+  font-family: 'open-sans', sans-serif;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.container {
+  margin: auto;
+  padding: 0 1em;
+  max-width: 1200px;
+}
+
+/* Header - start */
+.header {
+  font-size: 2em;
+  padding: 1em 0.5em;
+  user-select: none;
+}
+
+.nav {
+  display: flex;
+}
+
+.nav .home {
+  padding: 0;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav a {
+  padding-left: 1em;
+  color: black;
+}
+/* Header - end */
+
+/* Product list - start */
+.item:hover {
+  border: 1px solid #777;
+  transition-duration: 0.6s;
+}
+
+.item img {
+  width: 100%;
+  height: auto;
+}
+
+.desc {
+  padding: 0 1em;
+  text-align: center;
+  height: 4.5em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h3 {
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+.content {
+  overflow-wrap: break-word;
+  padding: 0 1em;
+}
+
+.card {
+  padding: 1em;
+  float: left;
+  width: 25%;
+}
+
+@media only screen and (max-width: 700px) {
+  .card {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+  }
+  
+  .header {
+    font-size: 1.3em;
+    margin: 0.4em;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .card {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Product list - end */
+
+/* Product page - start */
+.product {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.product img {
+  float: left;
+  margin-right: 2em;
+  margin-bottom: 2em;
+  max-width: 100%;
+}
+
+.right ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 1em 2em;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  bottom: 2em;
+  position: absolute;
+  right: 0.2em;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+  .right ul {
+    margin-bottom: 5em;
+  }
+}
+/* Product page - end */
+
+/* Cart - start */
+#listing ul {
+  list-style-type: none;
+  padding: 0;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.data {
+  border-top: 0.2em dashed;
+  padding: 1.5em 0 5em;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+input[type="text"] {
+  width: 100%;
+  margin: 0.5em 0 2em;
+  padding: 0.2em;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+textarea {
+  font-family: 'open-sans', sans-serif;
+  width: 100%;
+  height: 5em;
+  font-size: 1em;
+  padding: 0.2em;
+  margin: 0.5em 0 3em;
+}
+/* Cart - end */

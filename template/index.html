@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>baskket</title>
+  <meta name="description" content="Donate to Kernal - Kernal is a small funny, friendly and talented community of „hackers“ or other weirdos.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+  
+<body>
+<div class="container">
+  <div class="header">
+    <div class="nav">
+      <a class="home" href="/">baskket</a>
+      <a href="/cart.html">cart</a>
+      <a href="https://kernal.eu">kernal →</a>
+    </div>
+  </div>
+
+  <div class="content">
+  <h3>Now shipping from our darkest and dankest of headquarters.</h3>
+  </div>
+  {{range $item := . }}
+    <div class="gallery">
+      <div class="card">
+        <div class="item">
+          <a href="/{{ $item.Location }}">
+            <img src="{{ $item.Image }}" alt="{{ $item.Title }}">
+          </a>
+          <div class="desc">{{ $item.Title }}<br>{{ $item.PriceFloat }} XMR</div>
+      </div>
+    </div>
+  {{end}}
+</div>
+</body>
+</html>

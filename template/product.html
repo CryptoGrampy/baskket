@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>baskket</title>
+  <meta name="description" content="Baskket - Kernal is a small funny, friendly and talented community of „hackers“ or other weirdos.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="nav">
+      <a class="home" href=/>baskket</a>
+      <a href="/cart.html">cart</a>
+      <a href="https://kernal.eu">kernal →</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>{{ .Title }}</h2>
+    <div class="product">
+      <img src="{{ .Image }}" alt="{{ .Title }}">
+      <div class="right">
+        <ul>
+        <li>{{ .Description }}</li>
+        <li>{{ .PriceFloat }} XMR</li>
+        {{ if .Quantity }}
+        <li>In stock: {{ .Quantity }}</li>
+        </ul>
+        <div class="button" id="button">Add to cart</div>
+        {{ else }}
+        <li>Out of stock.</li>
+        </ul>
+        {{ end }}
+      </div>
+    </div>
+</div>
+<script>
+  document.getElementById("button").addEventListener("click", function(){
+      var local = localStorage.getItem("cart");
+      var cart = local ? JSON.parse(local) : [];
+      cart.push({id: {{ .Id }}, title: {{ .Title }}, price: {{ .PriceFloat }}});
+      localStorage.setItem("cart", JSON.stringify(cart));
+  });
+</script>
+</body>
+</html>
