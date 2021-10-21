@@ -75,10 +75,11 @@ func NotifyReceived(w http.ResponseWriter, r *http.Request) {
 		} else {
 			mail.Send(email, fmt.Sprintf(
 				"Almost there! You need to transfer %s XMR more" +
-				" to complete your order. Received %s/%s XMR.",
+				" to complete your order. Received %s/%s XMR." +
+				" Address: %s",
 				walletrpc.XMRToDecimal(total - xmr),
 				walletrpc.XMRToDecimal(xmr),
-				walletrpc.XMRToDecimal(total)))
+				walletrpc.XMRToDecimal(total), address))
 		}
 	}
 
