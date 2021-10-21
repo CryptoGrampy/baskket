@@ -103,8 +103,10 @@ func Place(w http.ResponseWriter, r *http.Request) {
 
 	items := struct {
 		Subaddress string
+		Amount string
 	}{
 		Subaddress: subaddr,
+		Amount: walletrpc.XMRToDecimal(total),
 	}
 	if err = pages.Payment.Execute(w, items); err != nil {
 		log.Fatal(err)
