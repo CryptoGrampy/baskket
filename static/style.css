@@ -135,6 +135,8 @@ h3 {
   border: none;
   color: white;
   padding: 1em 2em;
+  width: 10em;
+  height: 4em;
   font-size: 1em;
   text-align: center;
   text-decoration: none;
@@ -146,7 +148,7 @@ h3 {
 
 @media only screen and (max-width: 800px) {
   .right ul {
-    margin-bottom: 5em;
+    margin-bottom: 7em;
   }
 }
 /* Product page - end */
