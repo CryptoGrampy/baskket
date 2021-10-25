@@ -26,7 +26,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -62,11 +61,6 @@ func Init() {
 		}
 		t.PriceFloat = walletrpc.XMRToFloat64(t.PriceAtomic)
 		t.Location = strings.ToLower(reg.ReplaceAllString(t.Title, "")) + ".html"
-		f, err := os.Create("public/" + t.Location)
-		defer f.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
 		Products = append(Products, t)
 	}
 }

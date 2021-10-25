@@ -36,6 +36,18 @@ func Render(products []product.Product) {
 		log.Fatal(err)
 	}
 
+	if stat, err := os.Stat("public"); err != nil {
+		if os.IsNotExist(err) {
+			if err := os.Mkdir("public", 0755); err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			log.Fatal(err)
+		}
+	} else if !stat.IsDir() {
+		log.Fatal("/public exists and it is not a directory.")
+	}
+
 	for _, p := range products {
 		f, err := os.Create("public/" + p.Location)
 		defer f.Close()
