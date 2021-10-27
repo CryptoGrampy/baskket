@@ -19,15 +19,16 @@
   </div>
 
   <div class="content">
-    <h2>{{ .Title }}</h2>
+    <h2 id="title" value="{{ .Title }}">{{ .Title }}</h2>
     <div class="product">
       <img src="{{ .Image }}" alt="{{ .Title }}">
       <div class="right">
         <ul>
         <li>{{ .Description }}</li>
-        <li>{{ .PriceFloat }} XMR</li>
-        {{ if .Quantity }}
-        <li>In stock: {{ .Quantity }}</li>
+	<li id="price" value="{{ .PriceFloat }}">{{ .PriceFloat }} XMR</li>
+	<li id="id" value="{{ .Id }}" hidden></li>
+	{{ if .Quantity }}
+	<li>In stock: {{ .Quantity }}</li>
         </ul>
         <div class="button" id="button">Add to cart</div>
         {{ else }}
@@ -36,14 +37,7 @@
         {{ end }}
       </div>
     </div>
+    <script src="/static/js/product.js"></script>
 </div>
-<script>
-  document.getElementById("button").addEventListener("click", function(){
-      var local = localStorage.getItem("cart");
-      var cart = local ? JSON.parse(local) : [];
-      cart.push({id: {{ .Id }}, title: {{ .Title }}, price: {{ .PriceFloat }}});
-      localStorage.setItem("cart", JSON.stringify(cart));
-  });
-</script>
 </body>
 </html>
