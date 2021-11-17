@@ -27,6 +27,7 @@
         <li>{{ .Description }}</li>
 	<li id="price" value="{{ .PriceFloat }}">{{ .PriceFloat }} XMR</li>
 	<li id="id" value="{{ .Id }}" hidden></li>
+	<li id="atomic" value="{{ .PriceAtomic }}" hidden></li>
 	{{ if .Quantity }}
 	<li>In stock: {{ .Quantity }}</li>
         </ul>
