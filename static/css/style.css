@@ -154,17 +154,17 @@ h3 {
 /* Product page - end */
 
 /* Cart - start */
-#item {
+.cartitem {
   display: flex;
   width: 100%;
 }
 
-#item #title {
+.cartitem .title {
   float: left;
   width: 99%;
 }
 
-#item .remove {
+.cartitem .remove {
   float: right;
   width: 1%;
   cursor: pointer;
@@ -179,7 +179,7 @@ h3 {
   width: 100%;
 }
 
-#listing h3 {
+#total {
   margin-top: 1em;
 }
 
