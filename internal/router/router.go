@@ -26,6 +26,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"gitlab.com/moneropay/baskket/internal/config"
 	"gitlab.com/moneropay/baskket/internal/order"
 	"gitlab.com/moneropay/baskket/internal/payment"
 )
@@ -40,7 +41,7 @@ func Route() {
 
 	srv := &http.Server{
 		Handler: r,
-		Addr: "0.0.0.0:3000",
+		Addr: config.BindAddr,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
