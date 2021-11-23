@@ -46,11 +46,6 @@ body {
 /* Header - end */
 
 /* Product list - start */
-.item:hover {
-  border: 1px solid #777;
-  transition-duration: 0.6s;
-}
-
 .item img {
   width: 100%;
   height: auto;
