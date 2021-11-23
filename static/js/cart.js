@@ -43,6 +43,15 @@ function deleteItem() {
 	sum -= parseInt(this.getAttribute('atomic'), 10)
 	updateTotal(sum)
 	updateItem(this)
+
+	cart.forEach((element, index) => {
+		if (element.id == parseInt(this.getAttribute('id'), 10)) {
+			if ((--element.quantity) == 0)
+				cart.splice(index, 1)
+		}
+	})
+
+	localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 if (c == null) {
