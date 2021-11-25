@@ -20,15 +20,12 @@
 package order
 
 import (
-	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-	"regexp"
 	"strconv"
-	"strings"
 	"time"
 
 	"gitlab.com/moneropay/go-monero/walletrpc"
@@ -36,34 +33,19 @@ import (
 
 	"gitlab.com/moneropay/baskket/internal/config"
 	"gitlab.com/moneropay/baskket/internal/database"
-	"gitlab.com/moneropay/baskket/internal/pages"
-	"gitlab.com/moneropay/baskket/pkg/cart"
-	"gitlab.com/moneropay/baskket/pkg/product"
+	"gitlab.com/moneropay/baskket/internal/page"
+	"gitlab.com/moneropay/baskket/internal/product"
 )
 
-var Products []product.Product
-var lastOrderId uint
-
-func Init() {
-        rows, err := database.QueryWithTimeout(context.Background(), 3 * time.Second,
-            "SELECT id, title, description, price, quantity, image FROM products" +
-            " ORDER BY id")
-        if err != nil {
-                log.Fatal(err)
-        }
-
-	reg, _ := regexp.Compile("[^a-zA-Z]+")
-	for rows.Next() {
-		var t product.Product
-		if err = rows.Scan(&t.Id, &t.Title, &t.Description, &t.PriceAtomic,
-		    &t.Quantity, &t.Image); err != nil {
-			    log.Fatal(err)
-		}
-		t.PriceFloat = walletrpc.XMRToFloat64(t.PriceAtomic)
-		t.Location = strings.ToLower(reg.ReplaceAllString(t.Title, "")) + ".html"
-		Products = append(Products, t)
-	}
+type CartItem struct {
+	Id uint `json:"id"`
+	Title string `json:"title"`
+	Price float64 `json:"price"`
+	Atomic uint64 `json:"atomic"`
+	Quantity uint `json:"quantity"`
 }
+
+var lastOrderId uint
 
 func Place(w http.ResponseWriter, r *http.Request) {
 	cart := r.FormValue("cart")
@@ -103,13 +85,13 @@ func Place(w http.ResponseWriter, r *http.Request) {
 		Subaddress: subaddr,
 		Amount: walletrpc.XMRToDecimal(total),
 	}
-	if err = pages.Payment.Execute(w, items); err != nil {
+	if err = page.Payment.Execute(w, items); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func getCost(cartJson string) (uint64, error) {
-	var c []cart.CartItem
+	var c []CartItem
 	if err := json.Unmarshal([]byte(cartJson), &c); err != nil {
 		return 0, err
 	}
@@ -117,9 +99,9 @@ func getCost(cartJson string) (uint64, error) {
 	var total uint64
 	for _, i := range c {
 		if (i.Quantity > 0) {
-			total += (Products[i.Id - 1].PriceAtomic *
+			total += (product.Products[i.Id - 1].PriceAtomic *
 					uint64(i.Quantity))
-			Products[i.Id - 1].Quantity--
+			product.Products[i.Id - 1].Quantity--
 		}
 			// TODO: Decrement quantity in database at shutdown.
 	}

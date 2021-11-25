@@ -17,14 +17,14 @@
  * along with Baskket.  If not, see <https://www.gnu.org/licenses/>.  
  */
 
-package pages
+package page
 
 import (
 	"html/template"
 	"log"
 	"os"
 
-	"gitlab.com/moneropay/baskket/pkg/product"
+	"gitlab.com/moneropay/baskket/internal/product"
 )
 
 var Payment *template.Template
@@ -60,8 +60,8 @@ func Render(products []product.Product) {
 		}
 	}
 
-	renderPage("index", products)
-        renderPage("cart", nil)
+	renderPage("index.html", products)
+        renderPage("cart.html", nil)
 
 	// This template will be executed many times with different data.
 	Payment, err = template.ParseFiles("template/payment.html")
@@ -71,12 +71,12 @@ func Render(products []product.Product) {
 }
 
 func renderPage(s string, p []product.Product) {
-	index, err := template.ParseFiles("template/" + s + ".html")
+	index, err := template.ParseFiles("template/" + s)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	f, err := os.Create("public/" + s + ".html")
+	f, err := os.Create("public/" + s)
 	defer f.Close()
 	if err != nil {
 		log.Fatal(err)

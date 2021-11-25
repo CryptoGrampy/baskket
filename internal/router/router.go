@@ -28,7 +28,9 @@ import (
 
 	"gitlab.com/moneropay/baskket/internal/config"
 	"gitlab.com/moneropay/baskket/internal/order"
+	"gitlab.com/moneropay/baskket/internal/page"
 	"gitlab.com/moneropay/baskket/internal/payment"
+	"gitlab.com/moneropay/baskket/internal/product"
 )
 
 func Route() {
@@ -46,5 +48,25 @@ func Route() {
 		ReadTimeout:  15 * time.Second,
 	}
 
+	/* Provide the endpoints for re-rendering templates
+	 * and updating products on a seperate server.
+	 * Because ideally, these endpoints shouldn't be accesible
+	 * outside the local network.
+	 */
+	http.HandleFunc("/refreshPages", refreshPages)
+	http.HandleFunc("/refreshProducts", refreshProducts)
+	go http.ListenAndServe(config.RefreshAddr, nil)
+
 	log.Fatal(srv.ListenAndServe())
+}
+
+func refreshPages(w http.ResponseWriter, r *http.Request) {
+	page.Render(product.Products)
+}
+
+func refreshProducts(w http.ResponseWriter, r *http.Request) {
+	product.Get()
+
+	/* Re-render templates with the updated products array */
+	page.Render(product.Products)
 }

@@ -22,8 +22,8 @@ package main
 import (
 	"gitlab.com/moneropay/baskket/internal/config"
 	"gitlab.com/moneropay/baskket/internal/database"
-	"gitlab.com/moneropay/baskket/internal/order"
-	"gitlab.com/moneropay/baskket/internal/pages"
+	"gitlab.com/moneropay/baskket/internal/product"
+	"gitlab.com/moneropay/baskket/internal/page"
 	"gitlab.com/moneropay/baskket/internal/router"
 )
 
@@ -38,10 +38,10 @@ func main() {
 	database.Migrate()
 
 	// Get available products.
-	order.Init()
+	product.Get()
 
 	// Pre-render templates.
-	pages.Render(order.Products)
+	page.Render(product.Products)
 
 	// Serve the rendered pages.
 	router.Route()

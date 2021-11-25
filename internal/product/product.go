@@ -19,6 +19,18 @@
 
 package product
 
+import (
+	"context"
+	"log"
+	"regexp"
+	"strings"
+	"time"
+
+	"gitlab.com/moneropay/go-monero/walletrpc"
+
+	"gitlab.com/moneropay/baskket/internal/database"
+)
+
 type Product struct {
 	Id uint
 	Title string
@@ -28,4 +40,30 @@ type Product struct {
 	Quantity uint
 	Image string
 	Location string
+}
+
+var Products []Product
+
+func Get() {
+	Products = nil
+
+        rows, err := database.QueryWithTimeout(context.Background(), 3 * time.Second,
+            "SELECT id, title, description, price, quantity, image FROM products" +
+            " ORDER BY id")
+        if err != nil {
+                log.Fatal(err)
+        }
+
+	reg, _ := regexp.Compile("[^a-zA-Z]+")
+
+	for rows.Next() {
+		var t Product
+		if err = rows.Scan(&t.Id, &t.Title, &t.Description, &t.PriceAtomic,
+		    &t.Quantity, &t.Image); err != nil {
+			    log.Fatal(err)
+		}
+		t.PriceFloat = walletrpc.XMRToFloat64(t.PriceAtomic)
+		t.Location = strings.ToLower(reg.ReplaceAllString(t.Title, "")) + ".html"
+		Products = append(Products, t)
+	}
 }

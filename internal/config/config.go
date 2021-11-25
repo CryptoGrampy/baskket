@@ -22,6 +22,7 @@ package config
 import "github.com/namsral/flag"
 
 var BindAddr string
+var RefreshAddr string
 var CallbackAddr string
 
 var MoneroPayHost string
@@ -39,6 +40,8 @@ var PostgresDatabase string
 func Init() {
 	flag.StringVar(&BindAddr, "bind", "0.0.0.0:8080",
 	    "Bind ip:port")
+	    flag.StringVar(&RefreshAddr, "refresh-address", "127.0.0.1:3010",
+	    "Refresh ip:port")
 	flag.StringVar(&CallbackAddr, "callback-address", "http://0.0.0.0:3005",
 	    "Bind ip:port")
 	flag.StringVar(&MoneroPayHost, "moneropay-host",
