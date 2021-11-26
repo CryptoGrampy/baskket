@@ -54,7 +54,7 @@ func Get() {
                 log.Fatal(err)
         }
 
-	reg, _ := regexp.Compile("[^a-zA-Z]+")
+	reg, _ := regexp.Compile("[^a-zA-Z0-9]+")
 
 	for rows.Next() {
 		var t Product
