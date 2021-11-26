@@ -58,7 +58,6 @@ func Place(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-
 	row, err := database.QueryRowWithTimeout(r.Context(), 3 * time.Second,
 	    "INSERT INTO orders (email, total, address) VALUES" +
 	    " ($1, $2, $3) RETURNING id", email, total, address)
@@ -98,12 +97,13 @@ func getCost(cartJson string) (uint64, error) {
 
 	var total uint64
 	for _, i := range c {
-		if (i.Quantity > 0) {
-			total += (product.Products[i.Id - 1].PriceAtomic *
-					uint64(i.Quantity))
-			product.Products[i.Id - 1].Quantity--
+		for _, p := range product.Products {
+			if (i.Id == p.Id && i.Quantity > 0) {
+				total += p.PriceAtomic * uint64(i.Quantity)
+				p.Quantity--
+			}
 		}
-			// TODO: Decrement quantity in database at shutdown.
+		// TODO: Decrement quantity in database at shutdown.
 	}
 	return total, nil
 }
